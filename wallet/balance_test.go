@@ -1,8 +1,6 @@
 package wallet
 
-import (
-	"testing"
-)
+import "testing"
 
 func TestBalance(t *testing.T) {
 	t.Run("Empty wallet case", func(t *testing.T) {
