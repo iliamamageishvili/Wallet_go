@@ -6,15 +6,15 @@ import (
 )
 
 func main() {
-	wallet := wallet.Wallet{}
+	myWallet := wallet.Wallet{}
 
-	wallet.Deposit(10.5)
-	fmt.Println(wallet.Balance())
+	myWallet.Deposit(10.5)
+	fmt.Println(myWallet.Balance())
 
-	err := wallet.Withdraw(1.0)
+	err := myWallet.Withdraw(1.0)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
-	fmt.Println(wallet.Balance())
+	fmt.Println(myWallet.Balance())
 }
