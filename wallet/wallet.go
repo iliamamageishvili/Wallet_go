@@ -14,7 +14,7 @@ func (w *Wallet) Deposit(amount Bitcoin) {
 
 func (w *Wallet) Withdraw(amount Bitcoin) error {
 	if amount > w.balance {
-		return fmt.Errorf("Withdraw can't be done! Check the bal")
+		return fmt.Errorf("Withdraw can't be done! Check the balance")
 	}
 	w.balance -= amount
 	return nil
