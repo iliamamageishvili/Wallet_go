@@ -33,9 +33,10 @@ func TestDeposit(t *testing.T) {
 
 	t.Run("Depositing negative value", func(t *testing.T) {
 		wallet := Wallet{balance: Bitcoin(10)}
-		wallet.Deposit(Bitcoin(-5))
+		err := wallet.Deposit(Bitcoin(-5))
 
-		checkBalance(t, wallet, Bitcoin(5))
+		AssertError(t, err, ErrNegativeInput)
+		checkBalance(t, wallet, Bitcoin(10))
 	})
 
 }

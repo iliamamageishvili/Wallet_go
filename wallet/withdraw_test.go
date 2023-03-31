@@ -10,7 +10,7 @@ func TestWithdraw(t *testing.T) {
 		wallet := Wallet{}
 		err := wallet.Withdraw(Bitcoin(10))
 
-		withdrawError(t, err, ErrInsufficientFunds)
+		AssertError(t, err, ErrInsufficientFunds)
 		checkBalance(t, wallet, Bitcoin(0))
 	})
 
@@ -18,7 +18,7 @@ func TestWithdraw(t *testing.T) {
 		wallet := Wallet{balance: Bitcoin(20)}
 		err := wallet.Withdraw(Bitcoin(10))
 
-		withdrawError(t, err, nil)
+		AssertError(t, err, nil)
 		checkBalance(t, wallet, Bitcoin(10))
 	})
 
@@ -26,7 +26,7 @@ func TestWithdraw(t *testing.T) {
 		wallet := Wallet{balance: Bitcoin(20)}
 		err := wallet.Withdraw(Bitcoin(30))
 
-		withdrawError(t, err, ErrInsufficientFunds)
+		AssertError(t, err, ErrInsufficientFunds)
 		checkBalance(t, wallet, Bitcoin(20))
 	})
 
@@ -34,7 +34,7 @@ func TestWithdraw(t *testing.T) {
 		wallet := Wallet{balance: Bitcoin(20)}
 		err := wallet.Withdraw(Bitcoin(0))
 
-		withdrawError(t, err, nil)
+		AssertError(t, err, nil)
 		checkBalance(t, wallet, Bitcoin(20))
 	})
 
@@ -42,12 +42,21 @@ func TestWithdraw(t *testing.T) {
 		wallet := Wallet{balance: Bitcoin(20)}
 		err := wallet.Withdraw(Bitcoin(-20))
 
-		withdrawError(t, err, ErrInsufficientFunds)
+		AssertError(t, err, ErrNegativeInput)
 		checkBalance(t, wallet, Bitcoin(20))
 	})
+
+	t.Run("Withdraw whole balance", func(t *testing.T) {
+		wallet := Wallet{balance: Bitcoin(20)}
+		err := wallet.Withdraw(wallet.balance)
+
+		AssertError(t, err, nil)
+		checkBalance(t, wallet, Bitcoin(0))
+	})
+
 }
 
-func withdrawError(t *testing.T, got error, expected error) {
+func AssertError(t *testing.T, got error, expected error) {
 	t.Helper()
 
 	if got == nil && expected == nil {
