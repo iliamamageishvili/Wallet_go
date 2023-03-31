@@ -61,7 +61,7 @@ func AssertError(t *testing.T, got, expected error) {
 
 	if !errors.Is(got, expected) {
 		t.Errorf("got error '%v', expected error '%v'", got, expected)
-		return
+
 	}
 
 }
