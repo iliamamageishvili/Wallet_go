@@ -1,6 +1,9 @@
 package wallet
 
-import "testing"
+import (
+	"errors"
+	"testing"
+)
 
 func TestWithdraw(t *testing.T) {
 	t.Run("Empty wallet case", func(t *testing.T) {
@@ -26,6 +29,22 @@ func TestWithdraw(t *testing.T) {
 		withdrawError(t, err, ErrInsufficientFunds)
 		checkBalance(t, wallet, Bitcoin(20))
 	})
+
+	t.Run("WIthdraw 0", func(t *testing.T) {
+		wallet := Wallet{balance: Bitcoin(20)}
+		err := wallet.Withdraw(Bitcoin(0))
+
+		withdrawError(t, err, nil)
+		checkBalance(t, wallet, Bitcoin(20))
+	})
+
+	t.Run("Withdraw negative amount", func(t *testing.T) {
+		wallet := Wallet{balance: Bitcoin(20)}
+		err := wallet.Withdraw(Bitcoin(-20))
+
+		withdrawError(t, err, ErrInsufficientFunds)
+		checkBalance(t, wallet, Bitcoin(20))
+	})
 }
 
 func withdrawError(t *testing.T, got error, expected error) {
@@ -39,7 +58,7 @@ func withdrawError(t *testing.T, got error, expected error) {
 		t.Fatalf("got error '%v', expected error '%v'", got, expected)
 	}
 
-	if got.Error() != expected.Error() {
+	if !errors.Is(got, expected) {
 		t.Errorf("got error '%v', expected error '%v'", got, expected)
 	}
 }
