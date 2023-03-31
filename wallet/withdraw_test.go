@@ -56,18 +56,12 @@ func TestWithdraw(t *testing.T) {
 
 }
 
-func AssertError(t *testing.T, got error, expected error) {
+func AssertError(t *testing.T, got, expected error) {
 	t.Helper()
-
-	if got == nil && expected == nil {
-		return
-	}
-
-	if got == nil || expected == nil {
-		t.Fatalf("got error '%v', expected error '%v'", got, expected)
-	}
 
 	if !errors.Is(got, expected) {
 		t.Errorf("got error '%v', expected error '%v'", got, expected)
+		return
 	}
+
 }
