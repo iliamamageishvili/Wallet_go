@@ -8,6 +8,8 @@ import (
 func TestConcurrentSafe(t *testing.T) {
 	w := Wallet{}
 
+	w.Deposit(500)
+
 	var wg sync.WaitGroup
 	n := 10
 	wg.Add(n * 2)
@@ -41,7 +43,7 @@ func TestConcurrentSafe(t *testing.T) {
 	wg.Wait()
 
 	balance := w.Balance()
-	if balance != Bitcoin(500) {
+	if balance != Bitcoin(1000) {
 		t.Errorf("Unexpected balance: %v", balance)
 	}
 }
