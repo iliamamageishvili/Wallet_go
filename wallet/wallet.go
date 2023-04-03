@@ -10,11 +10,6 @@ var (
 	ErrNegativeInput     = errors.New("negative inputs are not allowed")
 )
 
-var (
-	ErrInsufficientFunds = errors.New("cannot withdraw, insufficient funds")
-	ErrNegativeInput     = errors.New("negative inputs are not allowed")
-)
-
 type Bitcoin float64
 
 type Wallet struct {
